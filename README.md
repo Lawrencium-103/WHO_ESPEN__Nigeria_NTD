@@ -1,53 +1,41 @@
-# WHO ESPEN Intelligence Platform: Epidemiological & Supply Chain Nexus
+# WHO ESPEN Intervention Dashboard
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen" alt="Status">
-  <img src="https://img.shields.io/badge/Architecture-Vanilla%20JS%20%2B%20Node.js-blue" alt="Architecture">
-  <img src="https://img.shields.io/badge/Focus-Global%20Health%20Security-red" alt="Focus">
-</p>
+A data correlation and visualization dashboard built to bridge the gap between supply chain logistics and epidemiological outcomes for the WHO Expanded Special Project for Elimination of Neglected Tropical Diseases (ESPEN).
 
-## 🔬 The Vision & Purpose
+## The Problem
 
-Stakeholders at the **WHO Expanded Special Project for Elimination of Neglected Tropical Diseases (ESPEN)** face a complex challenge: translating drug delivery logistics into real-world Preventive Chemotherapy (PC) coverage. Delays in the supply chain directly result in endemicity spikes, leaving vulnerable populations without critical treatments against NTDs (Schistosomiasis, Onchocerciasis, etc.).
+Mass Drug Administration (MDA) targets frequently miss the mark, leaving vulnerable populations without critical treatments against NTDs (like Schistosomiasis and Onchocerciasis). The core issue isn't just medical—it's logistical. Supply chain delays directly result in endemicity spikes, but the data has historically lived in separate silos. Stakeholders lack a unified view of how transit lag impacts disease control on the ground.
 
-As a **Think Tank and strategic data engineering entity**, I designed this platform to bridge the gap between two traditionally isolated data silos: **Epidemiological Disease Burden** and **Supply Chain Logistics**. The purpose of this architecture is to transform raw, disconnected datasets into actionable, geo-spatial intelligence that empowers senior stakeholders and ministries of health to make rapid, resource-allocating decisions.
+## Objective & Approach
 
-## 🛠️ Technical Architecture & The "Why"
+As a **Data Analyst / Associate** who specializes in solving complex problems using **Data-Driven Decision Making (DDDM)** across the Health and Finance sectors, my goal with this project was to bring quantitative accountability to global health logistics. I took raw, disconnected datasets (Purchase Order logs and epidemiological surveys) and built a platform that explicitly models their financial and operational relationship. Instead of just plotting points on a map, this dashboard actively correlates dispatch delays with failed MDA coverage, highlighting exactly where and why the supply chain is failing the medical objectives and wasting operational resources.
 
-This project was built from the ground up to prioritize **performance, resilience, and clarity**. 
+## Tech Stack & Rationale
 
-- **Frontend Core**: Vanilla JavaScript (ES6+), HTML5, CSS3. 
-  - *Why?* To guarantee blazing-fast performance, zero-dependency overhead, and maximum resilience in low-bandwidth deployment environments typical of Global South intervention zones. Heavy UI frameworks like React or Angular were intentionally bypassed to eliminate bloated initial load times.
-- **Geospatial Engine**: Leaflet.js with CartoDB Voyager tiles.
-  - *Why?* Extremely precise vector polygon rendering maps 774 Local Government Areas (LGAs) in Nigeria dynamically. Custom CSS filters completely wash out neighboring countries, stripping away visual noise and forcing absolute stakeholder focus on the intervention zone.
-- **Visualization Engine**: Chart.js.
-  - *Why?* Highly reliable, responsive HTML5 canvas rendering capable of handling complex dual-axis trends, scatter distributions, and stacked bottleneck analyses.
-- **Backend API Layer**: Node.js & Express.
-  - *Why?* Async, non-blocking I/O is ideal for rapidly joining simulated epidemiology telemetry with logistics Purchase Order (PO) logs at runtime without blocking the event loop.
+I built this with a focus on performance, low footprint, and clear data communication.
 
-## 🚧 Challenges Faced & Overcome
+- **Vanilla JavaScript (ES6+), HTML5, CSS3**
+  I aggressively avoided heavy frontend frameworks like React or Angular. This application needs to run reliably on low-end devices and weak networks common in remote intervention zones. Relying on native browser APIs ensures sub-second load times and zero framework bloat.
+- **Node.js & Express**
+  Used for the backend API and data aggregation. The non-blocking async architecture is ideal for mathematically joining thousands of logistics shipment records against regional geometry and year-over-year health stats without dropping requests.
+- **Leaflet.js & CartoDB**
+  Selected for lightweight geospatial rendering. I used custom bounding calculations and CSS filters to isolate Nigeria's 774 Local Government Areas (LGAs), completely washing out neighboring regions to reduce noise and keep the user focused entirely on the active intervention zones.
+- **Chart.js**
+  A dependable canvas-based charting library used to render dual-axis trendlines, scatter plots (correlating delay vs coverage), and stacked bar charts for supply chain bottleneck analysis.
 
-1. **The Challenge**: Merging Asynchronous Data Streams  
-   Epidemiological data is modeled spatially (by region and LGA), while logistics data is modeled temporarily (by shipment POs).  
-   **The Solution**: I constructed a dynamic, temporal Node.js aggregation layer that joins thousands of shipment records (Dispatch -> Transit -> Last-mile delays) directly against historical PC coverage outcomes by year. This allowed the system to establish a unique causal link between supply chain delays and disease coverage.
+## Key Challenges Solved
 
-2. **The Challenge**: Stakeholder Information Overload  
-   Presenting 10 years of data across 774 LGAs typically results in "analysis paralysis."  
-   **The Solution**: Developed the **Action Intelligence Engine**. Instead of forcing users to guess what the data implies, the platform's algorithms immediately sift through 37 states and output direct alerts (Critical, Warning, Info) and prioritized tables recommending emergency interventions based on high-burden + low-coverage overlapping logic.
+### 1. Data Asymmetry (Spatial vs Temporal)
+**Challenge:** Epidemiological data is spatial (recorded by LGA region), while logistics data is temporal (recorded by shipment and PO dates). 
+**Execution:** Drawing on finance and data modeling methodologies, I wrote a custom Node.js aggregation pipeline that calculates average transit times, dispatch lags, and last-mile delays per year. I then joined those temporal metrics directly against the annual PC coverage rates. This makes it mathematically obvious how a 30-day delay in shipping drags down national treatment coverage and return on investment.
 
-3. **The Challenge**: Map UI Friction  
-   Native mapping tools often suffer from "sticky" tooltips that obstruct neighboring polygons when trying to rapidly scan regions.  
-   **The Solution**: Re-engineered the Leaflet event listeners to utilize completely custom, non-obstructive hover tooltips that track mouse movement cleanly, combined with `fitBounds()` geometry calculations to always keep the map perfectly centered on the target nation.
+### 2. Information Density & Alerting
+**Challenge:** Plotting 10 years of data across 774 districts creates overwhelming visual noise.
+**Execution:** Utilizing core DDDM principles, I built an Action Intelligence engine that automatically scores states based on a combined risk matrix (High Burden + Low Coverage). Instead of forcing stakeholders to dig through tables, the dashboard surfaces prioritized alerts indicating exactly which states require emergency logistics and financial intervention.
 
-## 💡 Unique Value Proposition
-
-What makes this idea unique is the **Actionable Triangulation** of data. 
-Most platforms either show you a map of disease, OR a table of drug shipments. This platform does both, and mathematically correlates them:
-- **Scatter Plot Correlator**: Proves that MDA Delays mathematically drag down PC Coverage.
-- **Logistics Bottleneck Analyzer**: Stacks Dispatch vs. Transit vs. Last-Mile delays chronologically, allowing operations managers to point to exactly *where* in the supply chain the failure occurred.
-- **Priority State Ranking**: Automatically lists which states are failing geographically so they can receive immediate intervention.
-
-This is not just a dashboard; it is a **diagnostic and strategic recommendation engine** aligned perfectly with stakeholder requirements to eliminate NTDs.
+### 3. Map UX Friction
+**Challenge:** Standard mapping libraries use click-to-open popups that remain sticky, obscuring neighboring polygons and slowing down rapid data scanning.
+**Execution:** I rewrote the interaction layer to use non-intrusive hover tooltips synced with dynamic bounding-box logic. The map autonomously keeps the target nation perfectly centered regardless of screen size, and tooltips vanish instantly on mouseout, creating a fluid, frictionless review process for decision-makers.
 
 ---
 
@@ -58,11 +46,11 @@ This is not just a dashboard; it is a **diagnostic and strategic recommendation 
 git clone https://github.com/yourusername/who-espen-intelligence.git
 cd who-espen-intelligence
 
-# 2. Install dependencies (Node.js & Express)
+# 2. Install dependencies
 npm install
 
-# 3. Start the internal API and static server
+# 3. Start the local server
 npm start
 ```
 
-*Access the dashboard locally at `http://localhost:3001`.*
+*Access the dashboard at `http://localhost:3001`.*
