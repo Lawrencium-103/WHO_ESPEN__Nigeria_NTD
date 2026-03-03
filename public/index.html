@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHO ESPEN Nigeria — SCH Intelligence Platform</title>
+    <meta name="description"
+        content="Epidemiological and supply chain intelligence for Nigeria's Schistosomiasis control programme">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon"><span class="who-dot">W</span></div>
+                <div class="brand-text">
+                    <div class="brand-main">WHO <span>ESPEN</span></div>
+                    <div class="brand-sub">Nigeria SCH Programme</div>
+                </div>
+            </div>
+            <div class="sidebar-divider"></div>
+            <nav id="sidebarNav">
+                <a class="nav-link active" data-page="epi" href="#">
+                    <span class="nav-icon"><i class="fa-solid fa-virus-covid"></i></span>
+                    <span class="nav-label">Epi Profile</span>
+                    <span class="nav-badge" id="nb-lga">—</span>
+                </a>
+                <a class="nav-link" data-page="coverage" href="#">
+                    <span class="nav-icon"><i class="fa-solid fa-shield-heart"></i></span>
+                    <span class="nav-label">Programme Coverage</span>
+                </a>
+                <a class="nav-link" data-page="logistics" href="#">
+                    <span class="nav-icon"><i class="fa-solid fa-truck-ramp-box"></i></span>
+                    <span class="nav-label">Logistics & Supply</span>
+                </a>
+                <a class="nav-link" data-page="decision" href="#">
+                    <span class="nav-icon"><i class="fa-solid fa-brain"></i></span>
+                    <span class="nav-label">Action Intelligence</span>
+                    <span class="nav-badge urgent" id="nb-alerts">—</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-meta">Data: ESPEN Portal & NTDeliver</div>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main id="main">
+            <!-- TOP BAR -->
+            <header id="topbar">
+                <div class="topbar-row1">
+                    <div class="topbar-brand-row">
+                        <span class="scope-tag blue"><i class="fa-solid fa-location-dot"></i> NIGERIA · SCH · PZQ</span>
+                        <span class="scope-tag green" id="scopeMeta">Loading…</span>
+                    </div>
+                    <div class="filter-bar">
+                        <div class="filter-group year-group">
+                            <label class="filter-label"><i class="fa-solid fa-calendar"></i> Year</label>
+                            <div class="multi-select" id="yearMultiSelect">
+                                <div class="multi-select-value" id="yearSelText">All Years (2014–2024)</div>
+                                <div class="multi-dropdown" id="yearDropdown">
+                                    <label class="multi-opt"><input type="checkbox" value="All" id="checkAllYears"
+                                            checked> <b>All Years</b></label>
+                                    <div class="multi-divider"></div>
+                                    <div id="yearCheckboxes" class="multi-scroll"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label"><i class="fa-solid fa-map-location-dot"></i> State</label>
+                            <select id="stateSel" class="filter-sel">
+                                <option value="National">🇳🇬 Nigeria (National)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="topbar-row2">
+                    <div class="page-breadcrumb" id="pageBreadcrumb">Epidemiological Profile</div>
+                    <div class="data-hint" id="dataHint">Disease burden, endemicity &amp; MDA delivery across Nigeria
+                    </div>
+                </div>
+            </header>
+
+            <!-- ══════════════════════════════════════════ -->
+            <!--          PAGE 1 · EPI PROFILE             -->
+            <!-- ══════════════════════════════════════════ -->
+            <section id="page-epi" class="page active">
+                <div class="kpi-strip">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-map-pin"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Implementation Units</div>
+                            <div class="kpi-value" id="kv-iu">—</div>
+                            <div class="kpi-sub" id="ks-iu">LGAs with data</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon navy"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Population at Risk</div>
+                            <div class="kpi-value" id="kv-burden">—</div>
+                            <div class="kpi-sub">Requiring treatment</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">High Endemicity IUs</div>
+                            <div class="kpi-value" id="kv-high">—</div>
+                            <div class="kpi-sub">≥50% prevalence</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon orange"><i class="fa-solid fa-circle-exclamation"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Moderate Endemicity</div>
+                            <div class="kpi-value" id="kv-mod">—</div>
+                            <div class="kpi-sub">10–49% prevalence</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon teal"><i class="fa-solid fa-flag"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">States Active</div>
+                            <div class="kpi-value" id="kv-states">—</div>
+                            <div class="kpi-sub">With reported data</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts row -->
+                <div class="viz-row">
+                    <div class="viz-panel map-panel glass">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-earth-africa"></i> Nigeria LGA Map</span>
+                            <div class="panel-actions">
+                                <button class="pill-btn active" id="mapColorBurden"
+                                    onclick="setMapMode('burden')">Burden</button>
+                                <button class="pill-btn" id="mapColorCoverage"
+                                    onclick="setMapMode('coverage')">Coverage</button>
+                                <button class="pill-btn back-btn" id="backToNational" style="display:none"
+                                    onclick="drillBack()"><i class="fa-solid fa-arrow-left"></i> National</button>
+                            </div>
+                        </div>
+                        <div id="map"></div>
+                        <div id="mapLegend" class="map-legend"></div>
+                    </div>
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-pie"></i> Endemicity
+                                Distribution</span>
+                        </div>
+                        <div class="chart-wrap"><canvas id="endemicityChart"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Table below charts -->
+                <div class="viz-panel glass table-full-panel">
+                    <div class="panel-header">
+                        <span class="panel-title"><i class="fa-solid fa-table-list"></i> LGA-Level Implementation Data —
+                            <span id="epiTableTitle">All States</span></span>
+                        <div class="panel-actions">
+                            <input class="table-search" id="epiSearch" type="text" placeholder="Search LGA or state…"
+                                oninput="filterTable('epiTable', this.value)">
+                            <button class="icon-btn" onclick="exportCSV('epiTable','epi_data')"><i
+                                    class="fa-solid fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="epiTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('epiTable',0)">State <i class="fa-solid fa-sort"></i></th>
+                                    <th onclick="sortTable('epiTable',1)">LGA <i class="fa-solid fa-sort"></i></th>
+                                    <th onclick="sortTable('epiTable',2)">Endemicity <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('epiTable',3)">Pop at Risk <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('epiTable',4)">Treated <i class="fa-solid fa-sort"></i></th>
+                                    <th onclick="sortTable('epiTable',5)">Coverage % <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th>MDA Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="epiTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer" id="epiTableFooter"></div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════════ -->
+            <!--        PAGE 2 · PROGRAMME COVERAGE        -->
+            <!-- ══════════════════════════════════════════ -->
+            <section id="page-coverage" class="page">
+                <div class="kpi-strip">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-percent"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">PC Coverage Rate</div>
+                            <div class="kpi-value" id="kv-cov-pct">—</div>
+                            <div class="kpi-sub">Epidemiological coverage</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon green"><i class="fa-solid fa-syringe"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Population Treated</div>
+                            <div class="kpi-value" id="kv-cov-treated">—</div>
+                            <div class="kpi-sub">Received PZQ</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon navy"><i class="fa-solid fa-bullseye"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Population Targeted</div>
+                            <div class="kpi-value" id="kv-cov-targeted">—</div>
+                            <div class="kpi-sub">Programme target</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon teal"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">MDA Rounds Delivered</div>
+                            <div class="kpi-value" id="kv-cov-mda">—</div>
+                            <div class="kpi-sub">IUs with MDA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="viz-row">
+                    <div class="viz-panel glass" style="flex:2">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-line"></i> PC Coverage Trend
+                                (2014–2024)</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="coverageChart"></canvas></div>
+                    </div>
+                    <div class="viz-panel glass rank-panel">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-ranking-star"></i> All-State Coverage
+                                Ranking</span>
+                            <span class="panel-sub" id="rankSubtitle">sorted by coverage %</span>
+                        </div>
+                        <div class="rank-scroll">
+                            <canvas id="stateRankChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coverage State Table -->
+                <div class="viz-panel glass table-full-panel">
+                    <div class="panel-header">
+                        <span class="panel-title"><i class="fa-solid fa-table-list"></i> State-Level Coverage
+                            Summary</span>
+                        <div class="panel-actions">
+                            <input class="table-search" type="text" placeholder="Search state…"
+                                oninput="filterTable('covTable', this.value)">
+                            <button class="icon-btn" onclick="exportCSV('covTable','coverage_data')"><i
+                                    class="fa-solid fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="covTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('covTable',0)">State <i class="fa-solid fa-sort"></i></th>
+                                    <th onclick="sortTable('covTable',1)">Pop at Risk <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('covTable',2)">Pop Treated <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('covTable',3)">Coverage % <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                    <th onclick="sortTable('covTable',4)">IU Count <i class="fa-solid fa-sort"></i></th>
+                                    <th onclick="sortTable('covTable',5)">MDA Delivered <i class="fa-solid fa-sort"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="covTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════════ -->
+            <!--       PAGE 3 · LOGISTICS & SUPPLY         -->
+            <!-- ══════════════════════════════════════════ -->
+            <section id="page-logistics" class="page">
+                <div class="kpi-strip">
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-pills"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">PZQ Tablets Delivered</div>
+                            <div class="kpi-value" id="kv-qty">—</div>
+                            <div class="kpi-sub">This year's shipment</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon orange"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Dispatch Lag</div>
+                            <div class="kpi-value" id="kv-dlag">—</div>
+                            <div class="kpi-sub">Packing → shipment (days)</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon navy"><i class="fa-solid fa-ship"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Transit Time</div>
+                            <div class="kpi-value" id="kv-transit">—</div>
+                            <div class="kpi-sub">Shipment → arrival (days)</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon teal"><i class="fa-solid fa-road"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Last-Mile Time</div>
+                            <div class="kpi-value" id="kv-lastmile">—</div>
+                            <div class="kpi-sub">Arrival → delivery (days)</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon red"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">MDA Delay</div>
+                            <div class="kpi-value" id="kv-mdadelay">—</div>
+                            <div class="kpi-sub">vs planned MDA date (days)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="viz-row">
+                    <div class="viz-panel glass" style="flex:2">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-timeline"></i> Supply Chain Timeline
+                                (2014–2024)</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="logisticsChart"></canvas></div>
+                    </div>
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-diagram-project"></i> MDA Delay vs PC
+                                Coverage</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="scatterChart"></canvas></div>
+                        <p class="model-note"><i class="fa-solid fa-circle-info"></i> Each point = one year. Longer
+                            delays → lower coverage.</p>
+                    </div>
+                </div>
+
+                <!-- NEW LOGISTICS VIZ: Bottleneck Analysis -->
+                <div class="viz-row" style="margin-top:16px;">
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-truck-fast"></i> Logistics Bottleneck
+                                Analysis (Stage-by-Stage Delays)</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="bottleneckChart"></canvas></div>
+                        <p class="model-note"><i class="fa-solid fa-circle-info"></i> Stacked distribution of delays
+                            across supply chain stages. Identify which segment (Dispatch, Transit, Last-Mile)
+                            contributes most to overall MDA delays.</p>
+                    </div>
+                </div>
+
+                <!-- Logistics PO Table -->
+                <div class="viz-panel glass table-full-panel">
+                    <div class="panel-header">
+                        <span class="panel-title"><i class="fa-solid fa-table-list"></i> Supply Chain Purchase Order
+                            Records</span>
+                        <div class="panel-actions">
+                            <button class="icon-btn" onclick="exportCSV('logTable','logistics_data')"><i
+                                    class="fa-solid fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="logTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>PO Number</th>
+                                    <th>Year</th>
+                                    <th>Drug</th>
+                                    <th>Qty (M tabs)</th>
+                                    <th>Stage</th>
+                                    <th>Dispatch Lag</th>
+                                    <th>Transit Time</th>
+                                    <th>Last-Mile</th>
+                                    <th>MDA Delay</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════════════════════════════ -->
+            <!--      PAGE 4 · ACTION INTELLIGENCE         -->
+            <!-- ══════════════════════════════════════════ -->
+            <section id="page-decision" class="page">
+                <div class="decision-header">
+                    <h2><i class="fa-solid fa-brain"></i> Action Intelligence Engine</h2>
+                    <p>Data-driven priority recommendations generated from epidemiological and supply chain analysis</p>
+                </div>
+
+                <!-- Alert Cards -->
+                <div class="alert-grid" id="alertGrid">
+                    <!-- Filled by JS -->
+                </div>
+
+                <!-- Decision Charts Row -->
+                <div class="viz-row" style="margin-top:16px">
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-ranking-star"></i> Priority State Ranking
+                                (Burden + Endemicity)</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="priorityChart"></canvas></div>
+                    </div>
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-scatter"></i> Coverage Gap
+                                Analysis</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="gapChart"></canvas></div>
+                        <p class="model-note"><i class="fa-solid fa-circle-info"></i> States in <strong>red
+                                zone</strong> = High burden + Low coverage = priority for next MDA cycle.</p>
+                    </div>
+                </div>
+
+                <!-- Action Table -->
+                <div class="viz-panel glass table-full-panel" style="margin-top:16px">
+                    <div class="panel-header">
+                        <span class="panel-title"><i class="fa-solid fa-list-check"></i> Recommended Programme
+                            Actions</span>
+                        <div class="panel-actions">
+                            <button class="icon-btn" onclick="exportCSV('actionTable','action_plan')"><i
+                                    class="fa-solid fa-download"></i> Export Plan</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="actionTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Priority</th>
+                                    <th>State</th>
+                                    <th>Issue</th>
+                                    <th>Indicator</th>
+                                    <th>Recommended Action</th>
+                                    <th>Urgency</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actionTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
