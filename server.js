@@ -15,7 +15,7 @@ function run() {
     console.log('Initializing data pipeline...\n');
 
     // --- 1. GEOSPATIAL ---
-    const rawGeo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ESPEN_IU_2024 (2).json'), 'utf8'));
+    let rawGeo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ESPEN_IU_2024 (2).json'), 'utf8'));
     DB.geoJson = {
         type: 'FeatureCollection',
         features: rawGeo.features
@@ -30,11 +30,13 @@ function run() {
                 }
             }))
     };
+    rawGeo = null; // V8 Garbage Collection: Free ~150MB of global IUs
     console.log(`✔ GeoJSON: ${DB.geoJson.features.length} LGA geometries loaded for Nigeria`);
 
     // --- 2. EPI DATA ---
-    const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'espen_sch_data_complete.json'), 'utf8'));
+    let raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'espen_sch_data_complete.json'), 'utf8'));
     const epi = raw.filter(r => r.State && r.LGA && r.Year);
+    raw = null; // Free memory
 
     // Normalize endemicity to short labels
     function classifyEndemicity(e) {
