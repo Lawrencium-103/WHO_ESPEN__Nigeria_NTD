@@ -15,7 +15,7 @@ function run() {
     console.log('Initializing data pipeline...\n');
 
     // --- 1. GEOSPATIAL ---
-    let rawGeo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'ESPEN_IU_2024 (2).json'), 'utf8'));
+    let rawGeo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'nigeria_geo.json'), 'utf8'));
     DB.geoJson = {
         type: 'FeatureCollection',
         features: rawGeo.features
