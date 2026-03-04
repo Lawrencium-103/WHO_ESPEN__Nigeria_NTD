@@ -140,6 +140,8 @@ async function refreshAll() {
     updateLogisticsKPIs(logYear);
     renderEndemicityChart(G.stats);
     renderCoverageChart();
+    renderTreatmentTrendChart();
+    renderBurdenGapChart();
     renderStateRankChart();
     renderLogisticsChart();
     renderScatterChart();
@@ -190,6 +192,7 @@ const fmt = n => { if (n == null || isNaN(n)) return '—'; if (n >= 1e6) return
 
 function updateEpiKPIs(s) {
     set('kv-iu', s.iuCount?.toLocaleString() || '—');
+    set('kv-endemic-iu', s.endemicIUs?.toLocaleString() || '—');
     set('kv-burden', fmt(s.burden));
     set('kv-high', s.highEndemicity?.toLocaleString() || '0');
     set('kv-mod', s.moderateEndemicity?.toLocaleString() || '0');
@@ -409,7 +412,7 @@ function renderEndemicityChart(s) {
     }, { cutout: '62%', plugins: { legend: { position: 'bottom', labels: { ...T, padding: 12, boxWidth: 12 } } } });
 }
 
-// Coverage: dual-axis line trend
+// Coverage: dual-axis line trend (PC Coverage History)
 function renderCoverageChart() {
     const trend = G.trendState || G.trendNational;
     const labels = trend.map(t => t.year);
@@ -433,6 +436,74 @@ function renderCoverageChart() {
             y1: { position: 'right', grid: { display: false }, ticks: T, title: { display: true, text: 'High End. IUs', font: { family: 'Inter', size: 11 }, color: '#ef4444' } }
         },
         plugins: { legend: { display: true, position: 'top', labels: { ...T, boxWidth: 14 } } }
+    });
+}
+
+// New: Treatment vs Coverage Trend
+function renderTreatmentTrendChart() {
+    const trend = G.trendState || G.trendNational;
+    const labels = trend.map(t => t.year);
+    mkChart('treatmentTrendChart', 'bar', {
+        labels,
+        datasets: [
+            {
+                label: 'Population Treated',
+                data: trend.map(t => t.treated),
+                backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                borderRadius: 4,
+                yAxisID: 'y'
+            },
+            {
+                label: 'PC Coverage %',
+                data: trend.map(t => t.coverage),
+                type: 'line',
+                borderColor: '#009EDB',
+                borderWidth: 3,
+                pointRadius: 4,
+                yAxisID: 'y1',
+                tension: 0.4
+            }
+        ]
+    }, {
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+            y: { ticks: { callback: v => (v / 1e6).toFixed(1) + 'M' }, title: { display: true, text: 'Treatment (Millions)' } },
+            y1: { position: 'right', max: 100, min: 0, title: { display: true, text: 'Coverage %' } },
+            x: { grid: { display: false } }
+        },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, ...T } } }
+    });
+}
+
+// New: Treated vs Requiring PC (Burden Gap)
+function renderBurdenGapChart() {
+    const trend = G.trendState || G.trendNational;
+    const labels = trend.map(t => t.year);
+    mkChart('burdenGapChart', 'bar', {
+        labels,
+        datasets: [
+            {
+                label: 'Requiring PC',
+                data: trend.map(t => t.burden),
+                backgroundColor: 'rgba(30, 58, 138, 0.2)',
+                borderColor: '#1e3a8a',
+                borderWidth: 1,
+                borderRadius: 4
+            },
+            {
+                label: 'Actual Treated',
+                data: trend.map(t => t.treated),
+                backgroundColor: '#22c55e',
+                borderRadius: 4
+            }
+        ]
+    }, {
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+            y: { ticks: { callback: v => (v / 1e6).toFixed(1) + 'M' }, title: { display: true, text: 'Population (Millions)' } },
+            x: { grid: { display: false } }
+        },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, ...T } } }
     });
 }
 

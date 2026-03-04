@@ -104,11 +104,19 @@
                         </div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-icon navy"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-icon navy"><i class="fa-solid fa-virus"></i></div>
                         <div class="kpi-body">
-                            <div class="kpi-label">Population at Risk</div>
+                            <div class="kpi-label">Endemic IUs</div>
+                            <div class="kpi-value" id="kv-endemic-iu">—</div>
+                            <div class="kpi-sub">LGAs needing PC</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon blue"><i class="fa-solid fa-users"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">Population Requiring PC</div>
                             <div class="kpi-value" id="kv-burden">—</div>
-                            <div class="kpi-sub">Requiring treatment</div>
+                            <div class="kpi-sub">Estimated burden</div>
                         </div>
                     </div>
                     <div class="kpi-card">
@@ -237,9 +245,26 @@
                     </div>
                 </div>
                 <div class="viz-row">
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-line"></i> National Treatment vs
+                                Coverage</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="treatmentTrendChart"></canvas></div>
+                    </div>
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-column"></i> Treated vs Requiring
+                                PC</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="burdenGapChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="viz-row" style="margin-top:16px;">
                     <div class="viz-panel glass" style="flex:2">
                         <div class="panel-header">
-                            <span class="panel-title"><i class="fa-solid fa-chart-line"></i> PC Coverage Trend
+                            <span class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> PC Coverage History
                                 (2014–2024)</span>
                         </div>
                         <div class="chart-wrap tall"><canvas id="coverageChart"></canvas></div>

@@ -193,33 +193,62 @@ app.get('/api/stats', (req, res) => {
     if (year === 'All' || (typeof year === 'string' && year.includes(','))) {
         // Aggregate across requested years
         const yrs = year === 'All' ? DB.meta.years : year.split(',').map(y => parseInt(y.trim())).filter(y => !isNaN(y));
-        const agg = { burden: 0, targeted: 0, treated: 0, highEndemicity: 0, moderateEndemicity: 0, lowEndemicity: 0, noneEndemicity: 0, iuCount: 0, mdaImplemented: 0 };
+        const agg = { burden: 0, targeted: 0, treated: 0, highEndemicity: 0, moderateEndemicity: 0, lowEndemicity: 0, noneEndemicity: 0, iuCount: 0, mdaImplemented: 0, endemicIUs: 0 };
+
+        // Tracking unique LGAs to avoid double counting across years
+        const uniqueLGAs = new Set();
+        const latestYear = Math.max(...yrs);
+        const endemicLGAs = new Set();
+
         yrs.forEach(yr => {
-            const s = (!state || state === 'National') ? DB.stats[yr]?.national : DB.stats[yr]?.states[state];
-            if (!s) return;
-            agg.burden += s.burden || 0;
-            agg.targeted += s.targeted || 0;
-            agg.treated += s.treated || 0;
-            agg.highEndemicity = Math.max(agg.highEndemicity, s.highEndemicity || 0);
-            agg.moderateEndemicity = Math.max(agg.moderateEndemicity, s.moderateEndemicity || 0);
-            agg.lowEndemicity = Math.max(agg.lowEndemicity, s.lowEndemicity || 0);
-            agg.noneEndemicity = Math.max(agg.noneEndemicity, s.noneEndemicity || 0);
-            agg.iuCount = Math.max(agg.iuCount, s.iuCount || 0);
-            agg.mdaImplemented += s.mdaImplemented || 0;
+            const statesData = (!state || state === 'National') ? DB.stats[yr]?.states : { [state]: DB.stats[yr]?.states[state] };
+            if (!statesData) return;
+
+            Object.values(statesData).forEach(s => {
+                if (!s) return;
+                agg.burden += s.burden || 0;
+                agg.targeted += s.targeted || 0;
+                agg.treated += s.treated || 0;
+                agg.mdaImplemented += s.mdaImplemented || 0;
+
+                Object.entries(s.lgas).forEach(([lgaName, ld]) => {
+                    uniqueLGAs.add(`${s.state || state}||${lgaName}`);
+                    // Endemicity status based on the MOST RECENT year selected for each IU
+                    if (yr === latestYear && ld.endemicity !== 'None' && ld.endemicity !== 'Unknown') {
+                        endemicLGAs.add(`${s.state || state}||${lgaName}`);
+                    }
+                });
+            });
         });
+
+        // National aggregations for endemicity categories based on latest year
+        const latestStats = (!state || state === 'National') ? DB.stats[latestYear]?.national : DB.stats[latestYear]?.states[state];
+        if (latestStats) {
+            agg.highEndemicity = latestStats.highEndemicity || 0;
+            agg.moderateEndemicity = latestStats.moderateEndemicity || 0;
+            agg.lowEndemicity = latestStats.lowEndemicity || 0;
+            agg.noneEndemicity = latestStats.noneEndemicity || 0;
+        }
+
+        agg.iuCount = uniqueLGAs.size;
+        agg.endemicIUs = endemicLGAs.size;
         agg.coverage = agg.burden > 0 ? parseFloat((agg.treated / agg.burden * 100).toFixed(1)) : 0;
         agg.states = (!state || state === 'National') ? DB.meta.states.length : 1;
+
         return res.json({ level: state === 'National' ? 'national' : 'state', year: String(year), data: agg });
     }
 
     const yr = parseInt(year) || DB.meta.years[0];
     if (!DB.stats[yr]) return res.status(404).json({ error: 'Year not found' });
-    if (!state || state === 'National') {
-        return res.json({ level: 'national', year: yr, data: DB.stats[yr].national });
-    }
-    const st = DB.stats[yr].states[state];
-    if (!st) return res.status(404).json({ error: 'State not found' });
-    return res.json({ level: 'state', year: yr, state, data: st });
+
+    // Single year logic
+    const baseObj = (!state || state === 'National') ? DB.stats[yr].national : DB.stats[yr].states[state];
+    if (!baseObj) return res.status(404).json({ error: 'Data not found' });
+
+    const data = { ...baseObj };
+    data.endemicIUs = data.highEndemicity + data.moderateEndemicity + data.lowEndemicity;
+
+    return res.json({ level: state === 'National' ? 'national' : 'state', year: yr, state, data });
 });
 
 // LGA table for a state/year
