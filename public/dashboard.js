@@ -132,9 +132,56 @@ async function refreshAll() {
 
     rebuildMapCache();
 
-    // For logistics KPIs, show most recent year when All selected
-    const logLookupYear = G.currentYear === 'All' ? G.base.meta.years[0] : parseInt(String(G.currentYear).split(',')[0]);
-    const logYear = G.base.logByYear[logLookupYear] || {};
+    // For logistics KPIs, aggregate across selected years
+    const yrs = G.currentYear === 'All' ? G.base.meta.years : String(G.currentYear).split(',').map(y => parseInt(y.trim()));
+
+    // Aggregated logistics object
+    const logYear = {
+        totalPOs: 0,
+        totalQuantityM: 0,
+        avgDispatchLag: 0,
+        avgTransitTime: 0,
+        avgLastMile: 0,
+        avgArrivalDelay: 0,
+        avgMdaDelay: 0,
+        records: [],
+        drugBreakdown: {}
+    };
+
+    let lagSum = 0, lagCount = 0;
+    let transitSum = 0, transitCount = 0;
+    let lastSum = 0, lastCount = 0;
+    let arrivalSum = 0, arrivalCount = 0;
+    let mdaSum = 0, mdaCount = 0;
+
+    yrs.forEach(y => {
+        const yrData = G.base.logByYear[y];
+        if (!yrData) return;
+
+        logYear.totalPOs += yrData.totalPOs || 0;
+        logYear.totalQuantityM += yrData.totalQuantityM || 0;
+        logYear.records = logYear.records.concat(yrData.records || []);
+
+        Object.entries(yrData.drugBreakdown || {}).forEach(([drug, qty]) => {
+            logYear.drugBreakdown[drug] = (logYear.drugBreakdown[drug] || 0) + qty;
+        });
+
+        yrData.records.forEach(r => {
+            if (r.dispatchLag != null) { lagSum += r.dispatchLag; lagCount++; }
+            if (r.transitTime != null) { transitSum += r.transitTime; transitCount++; }
+            if (r.lastMileTime != null) { lastSum += r.lastMileTime; lastCount++; }
+            if (r.arrivalDelay != null) { arrivalSum += r.arrivalDelay; arrivalCount++; }
+            if (r.mdaDelay != null) { mdaSum += r.mdaDelay; mdaCount++; }
+        });
+    });
+
+    const getAvg = (sum, count) => count > 0 ? parseFloat((sum / count).toFixed(1)) : null;
+    logYear.avgDispatchLag = getAvg(lagSum, lagCount);
+    logYear.avgTransitTime = getAvg(transitSum, transitCount);
+    logYear.avgLastMile = getAvg(lastSum, lastCount);
+    logYear.avgArrivalDelay = getAvg(arrivalSum, arrivalCount);
+    logYear.avgMdaDelay = getAvg(mdaSum, mdaCount);
+
     updateEpiKPIs(G.stats);
     updateCoverageKPIs(G.stats);
     updateLogisticsKPIs(logYear);
@@ -144,12 +191,15 @@ async function refreshAll() {
     renderBurdenGapChart();
     renderStateRankChart();
     renderLogisticsChart();
+    renderShipmentPipelineChart(logYear);
+    renderDrugBreakdownChart(logYear);
     renderScatterChart();
     renderBottleneckChart();
     buildEpiTable(G.lgaRows);
     buildCovTable();
     buildLogTable(G.base.logByYear);
     renderDecisionPage();
+    refreshCorrelation(); // Update advanced analytics
     updateMapLayerStyles();
     updateContextTag();
 }
@@ -183,6 +233,7 @@ function setupNav() {
             document.getElementById('pageBreadcrumb').textContent = META[page].title;
             document.getElementById('dataHint').textContent = META[page].hint;
             if (page === 'epi') setTimeout(() => map?.invalidateSize(), 120);
+            if (page === 'decision') refreshCorrelation();
         });
     });
 }
@@ -206,10 +257,12 @@ function updateCoverageKPIs(s) {
     set('kv-cov-mda', s.mdaImplemented?.toLocaleString() || '—');
 }
 function updateLogisticsKPIs(log) {
+    set('kv-po-count', log.totalPOs?.toLocaleString() || '0');
     set('kv-qty', log.totalQuantityM != null ? log.totalQuantityM.toFixed(1) + 'M tabs' : '—');
     set('kv-dlag', log.avgDispatchLag != null ? log.avgDispatchLag + 'd' : '—');
     set('kv-transit', log.avgTransitTime != null ? log.avgTransitTime + 'd' : '—');
     set('kv-lastmile', log.avgLastMile != null ? log.avgLastMile + 'd' : '—');
+    set('kv-arrival-delay', log.avgArrivalDelay != null ? log.avgArrivalDelay + 'd' : '—');
     set('kv-mdadelay', log.avgMdaDelay != null ? log.avgMdaDelay + 'd' : '—');
 }
 function set(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
@@ -566,6 +619,58 @@ function renderLogisticsChart() {
     });
 }
 
+// New: Shipment Pipeline by Stage (Dual Axis)
+function renderShipmentPipelineChart(log) {
+    const raw = log.records || [];
+    const stages = ['Stage 1', 'Stage 2', 'Stage 3', 'Stage 4', 'Stage 5'];
+    const counts = stages.map(s => raw.filter(r => String(r.stage).includes(s)).length);
+    const qtys = stages.map(s => raw.filter(r => String(r.stage).includes(s)).reduce((a, b) => a + (b.quantity || 0), 0) / 1e6);
+
+    mkChart('shipmentPipelineChart', 'bar', {
+        labels: ['Draft/Pending', 'Approved', 'Shipped', 'Arrived', 'Delivered'],
+        datasets: [
+            {
+                label: 'Orders', data: counts, backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                borderRadius: 4, yAxisID: 'y'
+            },
+            {
+                label: 'Qty (Millions)', data: qtys, type: 'line', borderColor: '#22c55e',
+                borderWidth: 3, pointRadius: 4, yAxisID: 'y1', tension: 0.3
+            }
+        ]
+    }, {
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+            y: { title: { display: true, text: 'Number of Orders' }, beginAtZero: true },
+            y1: { position: 'right', title: { display: true, text: 'Drug Quantity (M)' }, grid: { display: false }, beginAtZero: true },
+            x: { grid: { display: false } }
+        },
+        plugins: { legend: { position: 'top', labels: { ...T, boxWidth: 12 } } }
+    });
+}
+
+// New: Drug Quantity Breakdown
+function renderDrugBreakdownChart(log) {
+    const bd = log.drugBreakdown || {};
+    const labels = Object.keys(bd);
+    const data = Object.values(bd).map(v => +(v / 1e6).toFixed(2));
+
+    mkChart('drugBreakdownChart', 'doughnut', {
+        labels,
+        datasets: [{
+            data,
+            backgroundColor: ['#009EDB', '#0ea5e9', '#38bdf8', '#7dd3fc', '#bae6fd'],
+            borderWidth: 2, borderColor: '#fff'
+        }]
+    }, {
+        cutout: '65%',
+        plugins: {
+            legend: { position: 'bottom', labels: { ...T, padding: 10, boxWidth: 10 } },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}M tabs` } }
+        }
+    });
+}
+
 // Scatter: MDA Delay vs PC Coverage (all years)
 function renderScatterChart() {
     const pts = G.trendNational
@@ -867,3 +972,138 @@ function exportCSV(id, name) {
 }
 
 window.addEventListener('DOMContentLoaded', boot);
+
+// ─── ADVANCED CORRELATION ANALYTICS ────────────────────────────
+
+/**
+ * Calculates Pearson Correlation Coefficient (r)
+ */
+function getPearsonCorrelation(x, y) {
+    if (x.length !== y.length || x.length === 0) return 0;
+    const n = x.length;
+    const sumX = x.reduce((a, b) => a + b, 0);
+    const sumY = y.reduce((a, b) => a + b, 0);
+    const sumXY = x.reduce((a, b, i) => a + b * y[i], 0);
+    const sumX2 = x.reduce((a, b) => a + b * b, 0);
+    const sumY2 = y.reduce((a, b) => a + b * b, 0);
+
+    const num = (n * sumXY) - (sumX * sumY);
+    const den = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+    if (den === 0) return 0;
+    return num / den;
+}
+
+/**
+ * Interprets the r value
+ */
+function interpretPearson(r) {
+    const absR = Math.abs(r);
+    let level = 'None', cls = 'corr-none';
+    if (absR > 0.7) { level = 'Strong'; cls = r > 0 ? 'corr-strong-pos' : 'corr-strong-neg'; }
+    else if (absR > 0.4) { level = 'Moderate'; cls = r > 0 ? 'corr-mod-pos' : 'corr-mod-neg'; }
+    else if (absR > 0.1) { level = 'Weak'; cls = r > 0 ? 'corr-weak-pos' : 'corr-weak-neg'; }
+
+    const direction = r > 0 ? 'Positive' : 'Negative';
+    return { text: `${level} ${r === 0 ? '' : direction}`, class: cls };
+}
+
+/**
+ * Main function to refresh the correlation dashboard
+ */
+async function refreshCorrelation() {
+    const indA = document.getElementById('corrIndA').value;
+    const indB = document.getElementById('corrIndB').value;
+
+    // We use trend data for national or state Level
+    const trend = G.currentState === 'National'
+        ? G.trendNational
+        : (G.trendState || []);
+
+    if (!trend.length) return;
+
+    // Map keys to data series
+    const getSeries = (key) => trend.map(t => {
+        if (key === 'burden') return t.burden || 0;
+        if (key === 'treated') return t.treated || 0;
+        if (key === 'coverage') return t.coverage || 0;
+        if (key === 'mdaDelay') return t.mdaDelay || 0;
+        // The trend object might not have all supply chain fields directly if it's strictly Epi
+        // But for National we joined them in trendNational.
+        return t[key] || 0;
+    });
+
+    const seriesA = getSeries(indA);
+    const seriesB = getSeries(indB);
+    const labels = trend.map(t => t.year);
+
+    // 1. Calculate Correlation
+    const r = getPearsonCorrelation(seriesA, seriesB);
+    const interp = interpretPearson(r);
+
+    const valEl = document.getElementById('pearsonVal');
+    const interpEl = document.getElementById('pearsonInterpret');
+
+    if (valEl) valEl.textContent = r.toFixed(2);
+    if (interpEl) {
+        interpEl.textContent = interp.text;
+        interpEl.className = 'corr-interpret ' + interp.class;
+    }
+
+    // 2. Render Scatter Plot
+    const scatterData = seriesA.map((v, i) => ({ x: v, y: seriesB[i], year: labels[i] }));
+    const labelA = document.getElementById('corrIndA').selectedOptions[0].text;
+    const labelB = document.getElementById('corrIndB').selectedOptions[0].text;
+
+    mkChart('correlationScatterChart', 'scatter', {
+        datasets: [{
+            label: 'Annual Observations',
+            data: scatterData,
+            backgroundColor: 'rgba(0, 158, 219, 0.6)',
+            borderColor: '#009EDB',
+            borderWidth: 1,
+            pointRadius: 6,
+            pointHoverRadius: 9
+        }]
+    }, {
+        scales: {
+            x: { title: { display: true, text: labelA, font: { ...T.font, weight: 'bold' } }, ticks: T },
+            y: { title: { display: true, text: labelB, font: { ...T.font, weight: 'bold' } }, ticks: T }
+        }
+    });
+
+    // 3. Render Comparison Trend
+    mkChart('comparisonTrendChart', 'line', {
+        labels: labels,
+        datasets: [
+            {
+                label: labelA,
+                data: seriesA,
+                borderColor: '#009EDB',
+                backgroundColor: 'rgba(0, 158, 219, 0.1)',
+                yAxisID: 'y',
+                tension: 0.4,
+                fill: true
+            },
+            {
+                label: labelB,
+                data: seriesB,
+                borderColor: '#f43f5e',
+                backgroundColor: 'transparent',
+                yAxisID: 'y1',
+                tension: 0.4,
+                borderDash: [5, 5]
+            }
+        ]
+    }, {
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+            y: { title: { display: true, text: labelA }, ticks: T },
+            y1: {
+                position: 'right',
+                title: { display: true, text: labelB },
+                grid: { display: false },
+                ticks: T
+            }
+        }
+    });
+}

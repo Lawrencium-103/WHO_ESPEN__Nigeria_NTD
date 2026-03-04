@@ -122,38 +122,58 @@ function run() {
 
     // --- 3. LOGISTICS ---
     const rawLog = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'clean_delivery_data.json'), 'utf8'));
-    DB.logistics = rawLog.map(r => ({
-        po: r['PO Number'],
-        year: r['Year'],
-        drug: r['Drug'],
-        quantity: r['Quantity'],
-        stage: r['Stage'],
-        estimatedArrival: r['Estimated Shipment Arrival'],
-        actualShipment: r['Actual Shipment Date'],
-        actualArrival: r['Actual Arrival Date'],
-        actualDelivery: r['Actual Delivery Date'],
-        mdaDate: r['MDA Date'],
-        dispatchLag: r['Dispatch Lag'],
-        transitTime: r['Transit Time'],
-        lastMileTime: r['Last-Mile Time'],
-        mdaDelay: r['MDA Delay']
-    }));
+    DB.logistics = rawLog.map(r => {
+        // Arrival Delay = Actual Arrival - Estimated Shipment Arrival
+        let arrivalDelay = null;
+        if (r['Actual Arrival Date'] && r['Estimated Shipment Arrival']) {
+            const actual = new Date(r['Actual Arrival Date']);
+            const estimated = new Date(r['Estimated Shipment Arrival']);
+            if (!isNaN(actual) && !isNaN(estimated)) {
+                arrivalDelay = Math.round((actual - estimated) / (1000 * 60 * 60 * 24));
+            }
+        }
+
+        return {
+            po: r['PO Number'],
+            year: r['Year'],
+            drug: r['Drug'],
+            quantity: r['Quantity'],
+            stage: r['Stage'],
+            estimatedArrival: r['Estimated Shipment Arrival'],
+            actualShipment: r['Actual Shipment Date'],
+            actualArrival: r['Actual Arrival Date'],
+            actualDelivery: r['Actual Delivery Date'],
+            mdaDate: r['MDA Date'],
+            dispatchLag: r['Dispatch Lag'],
+            transitTime: r['Transit Time'],
+            lastMileTime: r['Last-Mile Time'],
+            mdaDelay: r['MDA Delay'],
+            arrivalDelay
+        };
+    });
 
     // Aggregate logistics by year for join with epi
     DB.logByYear = {};
     DB.logistics.forEach(r => {
-        if (!DB.logByYear[r.year]) DB.logByYear[r.year] = { quantity: 0, records: [] };
+        if (!DB.logByYear[r.year]) DB.logByYear[r.year] = { quantity: 0, records: [], drugBreakdown: {} };
         DB.logByYear[r.year].records.push(r);
         DB.logByYear[r.year].quantity += (r.quantity || 0);
+
+        const d = r.drug || 'Unknown';
+        DB.logByYear[r.year].drugBreakdown[d] = (DB.logByYear[r.year].drugBreakdown[d] || 0) + (r.quantity || 0);
     });
+
     // Compute year-level averages
     Object.entries(DB.logByYear).forEach(([yr, obj]) => {
-        const valid = (key) => obj.records.map(r => r[key]).filter(v => v !== null && v > 0);
+        const valid = (key) => obj.records.map(r => r[key]).filter(v => v !== null && v !== undefined);
         const avg = arr => arr.length ? parseFloat((arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(1)) : null;
+
+        obj.totalPOs = obj.records.length;
         obj.avgDispatchLag = avg(valid('dispatchLag'));
         obj.avgTransitTime = avg(valid('transitTime'));
         obj.avgLastMile = avg(valid('lastMileTime'));
         obj.avgMdaDelay = avg(valid('mdaDelay'));
+        obj.avgArrivalDelay = avg(valid('arrivalDelay'));
         obj.totalQuantityM = parseFloat((obj.quantity / 1000000).toFixed(2));
         obj.stage = obj.records[0]?.stage;
     });
@@ -204,7 +224,7 @@ app.get('/api/stats', (req, res) => {
             const statesData = (!state || state === 'National') ? DB.stats[yr]?.states : { [state]: DB.stats[yr]?.states[state] };
             if (!statesData) return;
 
-            Object.values(statesData).forEach(s => {
+            Object.entries(statesData).forEach(([stName, s]) => {
                 if (!s) return;
                 agg.burden += s.burden || 0;
                 agg.targeted += s.targeted || 0;
@@ -212,10 +232,11 @@ app.get('/api/stats', (req, res) => {
                 agg.mdaImplemented += s.mdaImplemented || 0;
 
                 Object.entries(s.lgas).forEach(([lgaName, ld]) => {
-                    uniqueLGAs.add(`${s.state || state}||${lgaName}`);
+                    const compositeKey = `${stName}||${lgaName}`;
+                    uniqueLGAs.add(compositeKey);
                     // Endemicity status based on the MOST RECENT year selected for each IU
                     if (yr === latestYear && ld.endemicity !== 'None' && ld.endemicity !== 'Unknown') {
-                        endemicLGAs.add(`${s.state || state}||${lgaName}`);
+                        endemicLGAs.add(compositeKey);
                     }
                 });
             });
@@ -317,6 +338,7 @@ app.get('/api/trend', (req, res) => {
             dispatchLag: log?.avgDispatchLag || null,
             transitTime: log?.avgTransitTime || null,
             lastMile: log?.avgLastMile || null,
+            arrivalDelay: log?.avgArrivalDelay || null,
             mdaDelay: log?.avgMdaDelay || null,
             quantityM: log?.totalQuantityM || null
         };

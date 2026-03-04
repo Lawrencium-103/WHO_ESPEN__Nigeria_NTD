@@ -321,27 +321,35 @@
             <section id="page-logistics" class="page">
                 <div class="kpi-strip">
                     <div class="kpi-card">
-                        <div class="kpi-icon blue"><i class="fa-solid fa-pills"></i></div>
+                        <div class="kpi-icon blue"><i class="fa-solid fa-file-invoice"></i></div>
                         <div class="kpi-body">
-                            <div class="kpi-label">PZQ Tablets Delivered</div>
-                            <div class="kpi-value" id="kv-qty">—</div>
-                            <div class="kpi-sub">This year's shipment</div>
+                            <div class="kpi-label">Total Purchase Orders</div>
+                            <div class="kpi-value" id="kv-po-count">—</div>
+                            <div class="kpi-sub">Total POs tracked</div>
                         </div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-icon orange"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="kpi-icon green"><i class="fa-solid fa-pills"></i></div>
+                        <div class="kpi-body">
+                            <div class="kpi-label">PZQ Tablets Delivered</div>
+                            <div class="kpi-value" id="kv-qty">—</div>
+                            <div class="kpi-sub">Total tablets delivered</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon orange"><i class="fa-solid fa-truck-ramp-box"></i></div>
                         <div class="kpi-body">
                             <div class="kpi-label">Dispatch Lag</div>
                             <div class="kpi-value" id="kv-dlag">—</div>
-                            <div class="kpi-sub">Packing → shipment (days)</div>
+                            <div class="kpi-sub">Packing → Shipment (days)</div>
                         </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-icon navy"><i class="fa-solid fa-ship"></i></div>
                         <div class="kpi-body">
-                            <div class="kpi-label">Transit Time</div>
+                            <div class="kpi-label">Avg Transit Time</div>
                             <div class="kpi-value" id="kv-transit">—</div>
-                            <div class="kpi-sub">Shipment → arrival (days)</div>
+                            <div class="kpi-sub">Shipment → Arrival (days)</div>
                         </div>
                     </div>
                     <div class="kpi-card">
@@ -349,34 +357,57 @@
                         <div class="kpi-body">
                             <div class="kpi-label">Last-Mile Time</div>
                             <div class="kpi-value" id="kv-lastmile">—</div>
-                            <div class="kpi-sub">Arrival → delivery (days)</div>
+                            <div class="kpi-sub">Arrival → Delivery (days)</div>
                         </div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-icon red"><i class="fa-solid fa-clock-rotate-left"></i></div>
                         <div class="kpi-body">
+                            <div class="kpi-label">Avg Arrival Delay</div>
+                            <div class="kpi-value" id="kv-arrival-delay">—</div>
+                            <div class="kpi-sub">Actual vs Estimated (days)</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon maroon"><i class="fa-solid fa-calendar-xmark"></i></div>
+                        <div class="kpi-body">
                             <div class="kpi-label">MDA Delay</div>
                             <div class="kpi-value" id="kv-mdadelay">—</div>
-                            <div class="kpi-sub">vs planned MDA date (days)</div>
+                            <div class="kpi-sub">vs Planned Date (days)</div>
                         </div>
                     </div>
                 </div>
                 <div class="viz-row">
+                    <div class="viz-panel glass" style="flex:1.5">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-column"></i> Shipment Pipeline by
+                                Stage</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="shipmentPipelineChart"></canvas></div>
+                    </div>
+                    <div class="viz-panel glass" style="flex:1">
+                        <div class="panel-header">
+                            <span class="panel-title"><i class="fa-solid fa-chart-pie"></i> Drug Quantity
+                                Breakdown</span>
+                        </div>
+                        <div class="chart-wrap tall"><canvas id="drugBreakdownChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="viz-row" style="margin-top:16px">
                     <div class="viz-panel glass" style="flex:2">
                         <div class="panel-header">
-                            <span class="panel-title"><i class="fa-solid fa-timeline"></i> Supply Chain Timeline
-                                (2014–2024)</span>
+                            <span class="panel-title"><i class="fa-solid fa-timeline"></i> Supply Chain Performance
+                                Trends (2014–2024)</span>
                         </div>
                         <div class="chart-wrap tall"><canvas id="logisticsChart"></canvas></div>
                     </div>
                     <div class="viz-panel glass" style="flex:1">
                         <div class="panel-header">
-                            <span class="panel-title"><i class="fa-solid fa-diagram-project"></i> MDA Delay vs PC
+                            <span class="panel-title"><i class="fa-solid fa-diagram-project"></i> Delay vs
                                 Coverage</span>
                         </div>
                         <div class="chart-wrap tall"><canvas id="scatterChart"></canvas></div>
-                        <p class="model-note"><i class="fa-solid fa-circle-info"></i> Each point = one year. Longer
-                            delays → lower coverage.</p>
                     </div>
                 </div>
 
@@ -456,6 +487,77 @@
                         <div class="chart-wrap tall"><canvas id="gapChart"></canvas></div>
                         <p class="model-note"><i class="fa-solid fa-circle-info"></i> States in <strong>red
                                 zone</strong> = High burden + Low coverage = priority for next MDA cycle.</p>
+                    </div>
+                </div>
+
+                <!-- Correlation Dashboard Section -->
+                <div class="viz-panel glass" style="margin-top:16px;">
+                    <div class="panel-header"
+                        style="border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 16px;">
+                        <span class="panel-title"><i class="fa-solid fa-chart-line"></i> Advanced Correlation
+                            Analytics</span>
+                        <div class="panel-actions correlation-controls">
+                            <div class="control-item">
+                                <label>Indicator A (X)</label>
+                                <select id="corrIndA" class="filter-sel" onchange="refreshCorrelation()">
+                                    <option value="burden">Population Requiring PC</option>
+                                    <option value="treated">Population Treated</option>
+                                    <option value="coverage" selected>PC Coverage Rate (%)</option>
+                                    <option value="transitTime">Avg Transit Time</option>
+                                    <option value="arrivalDelay">Avg Arrival Delay</option>
+                                    <option value="lastMile">Last-Mile Time</option>
+                                    <option value="dispatchLag">Dispatch Lag</option>
+                                    <option value="mdaDelay">MDA Delay</option>
+                                </select>
+                            </div>
+                            <div class="control-sep">vs</div>
+                            <div class="control-item">
+                                <label>Indicator B (Y)</label>
+                                <select id="corrIndB" class="filter-sel" onchange="refreshCorrelation()">
+                                    <option value="burden">Population Requiring PC</option>
+                                    <option value="treated">Population Treated</option>
+                                    <option value="coverage">PC Coverage Rate (%)</option>
+                                    <option value="transitTime">Avg Transit Time</option>
+                                    <option value="arrivalDelay" selected>Avg Arrival Delay</option>
+                                    <option value="lastMile">Last-Mile Time</option>
+                                    <option value="dispatchLag">Dispatch Lag</option>
+                                    <option value="mdaDelay">MDA Delay</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="viz-row">
+                        <div class="viz-panel"
+                            style="flex:1.5; background: none; border:none; padding:0; box-shadow:none;">
+                            <div class="chart-wrap tall"><canvas id="correlationScatterChart"></canvas></div>
+                        </div>
+                        <div class="viz-panel"
+                            style="flex:1; background: none; border:none; padding:0; box-shadow:none;">
+                            <div class="correlation-stats">
+                                <div class="corr-score-card">
+                                    <div class="corr-label">Pearson Correlation ($r$)</div>
+                                    <div class="corr-value" id="pearsonVal">0.00</div>
+                                    <div class="corr-interpret" id="pearsonInterpret">Loading...</div>
+                                </div>
+                                <div class="corr-description">
+                                    <p id="pearsonDesc">Analyze the statistical relationship between two selected
+                                        indicators over time.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="viz-row" style="margin-top:20px;">
+                        <div class="viz-panel"
+                            style="flex:1; background: none; border:none; padding:0; box-shadow:none;">
+                            <div class="panel-header" style="padding:0 0 8px 0;">
+                                <span class="panel-title" style="font-size: 0.85rem; color: var(--text-dim);">Historical
+                                    Trend Comparison</span>
+                            </div>
+                            <div class="chart-wrap" style="height:200px;"><canvas id="comparisonTrendChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

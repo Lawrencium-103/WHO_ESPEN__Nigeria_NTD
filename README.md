@@ -29,15 +29,18 @@ I built this with a focus on performance, low footprint, and clear data communic
 **Challenge:** Epidemiological data is spatial (recorded by LGA region), while logistics data is temporal (recorded by shipment and PO dates). 
 **Execution:** Drawing on finance and data modeling methodologies, I wrote a custom Node.js aggregation pipeline that calculates average transit times, dispatch lags, and last-mile delays per year. I then joined those temporal metrics directly against the annual PC coverage rates. This makes it mathematically obvious how a 30-day delay in shipping drags down national treatment coverage and return on investment.
 
-### 2. Information Density & Alerting
-**Challenge:** Plotting 10 years of data across 774 districts creates overwhelming visual noise.
-**Execution:** Utilizing core DDDM principles, I built an Action Intelligence engine that automatically scores states based on a combined risk matrix (High Burden + Low Coverage). Instead of forcing stakeholders to dig through tables, the dashboard surfaces prioritized alerts indicating exactly which states require emergency logistics and financial intervention.
+### 4. Advanced Correlation Intelligence (New)
+**Challenge:** Identifying if logistics delays statistically cause coverage drops requires more than just visual inspection.
+**Execution:** I implemented a dynamic **Correlation Analysis Module** that calculates the **Pearson Correlation Coefficient ($r$)** in real-time. Users can select any two indicators (e.g., *Avg Arrival Delay* vs *PC Coverage*) to see the mathematical relationship, complemented by a dual-axis trend comparison and interactive scatter plots.
 
-### 3. Map UX Friction
-**Challenge:** Standard mapping libraries use click-to-open popups that remain sticky, obscuring neighboring polygons and slowing down rapid data scanning.
-**Execution:** I rewrote the interaction layer to use non-intrusive hover tooltips synced with dynamic bounding-box logic. The map autonomously keeps the target nation perfectly centered regardless of screen size, and tooltips vanish instantly on mouseout, creating a fluid, frictionless review process for decision-makers.
+### 5. High-Fidelity Logistics HUD
+**Challenge:** Logistics data was previously isolated from the main programme view.
+**Execution:** I unified all supply chain metrics into a single, horizontally scrollable row of **10 precision KPIs**, including *Dispatch Lag*, *Transit Time*, *Last-Mile Time*, and the newly engineered *Arrival Delay* (Actual vs Estimated).
 
 ---
+
+## 📗 Manual Verification
+For independent auditing, I created an **Excel Manual Calculation Guide** that provides step-by-step instructions and formulas to replicate every dashboard metric using standard Excel filters and Pivot Tables. See `excel_calculation_guide.md`.
 
 ### Setup & Installation
 

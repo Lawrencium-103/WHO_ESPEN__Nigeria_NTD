@@ -483,12 +483,16 @@ body {
 
 /* ─── KPI STRIP ─── */
 .kpi-strip {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    display: flex;
+    flex-wrap: nowrap;
     gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
 }
 
 .kpi-card {
+    flex: 1 0 170px;
+    min-width: 0;
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
@@ -711,8 +715,6 @@ body {
 }
 
 /* ─── TABLES ─── */
-.table-full-panel {}
-
 .table-scroll {
     overflow-y: auto;
     max-height: 320px;
@@ -1116,4 +1118,80 @@ body {
     .kpi-strip {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* ─── CORRELATION DASHBOARD ─── */
+.correlation-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.control-item label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-sep {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    margin-top: 14px;
+}
+
+.correlation-stats {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+    justify-content: center;
+}
+
+.corr-score-card {
+    background: rgba(0, 158, 219, 0.05);
+    border: 1px solid rgba(0, 158, 219, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.corr-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.corr-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--who-blue);
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+}
+
+.corr-interpret {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.corr-description {
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    text-align: center;
 }
