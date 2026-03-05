@@ -346,4 +346,8 @@ app.get('/api/trend', (req, res) => {
     res.json(trend);
 });
 
-app.listen(PORT, () => console.log(`\n🌍 WHO ESPEN Nigeria Intelligence Platform → http://localhost:${PORT}\n`));
+if (require.main === module) {
+    app.listen(PORT, () => console.log(`\n🌍 WHO ESPEN Nigeria Intelligence Platform → http://localhost:${PORT}\n`));
+}
+
+module.exports = app;
