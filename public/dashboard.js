@@ -220,7 +220,8 @@ function setupNav() {
         epi: { title: 'Epidemiological Profile', hint: 'Disease burden, endemicity & MDA delivery across Nigeria' },
         coverage: { title: 'Programme Coverage', hint: 'Preventive Chemotherapy reach and annual programme performance' },
         logistics: { title: 'Logistics & Supply Intelligence', hint: 'Drug supply chain metrics and correlation with coverage outcomes' },
-        decision: { title: 'Action Intelligence Engine', hint: 'Data-driven priority recommendations from epidemiological & supply chain analysis' }
+        decision: { title: 'Action Intelligence Engine', hint: 'Data-driven priority recommendations from epidemiological & supply chain analysis' },
+        about: { title: 'About the Developer', hint: 'Professional Summary & Data Engineering Portfolio' }
     };
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', e => {
