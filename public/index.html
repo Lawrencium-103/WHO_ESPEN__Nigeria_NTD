@@ -597,134 +597,260 @@
             <!-- ══════════════════════════════════════════ -->
             <!--      PAGE 5 · ABOUT THE DEVELOPER         -->
             <!-- ══════════════════════════════════════════ -->
-            <section id="page-about" class="page">
-                <div class="decision-header">
-                    <h2><i class="fa-solid fa-user-tie"></i> About the Developer</h2>
-                    <p>Professional Summary & Software Engineering Portfolio</p>
-                </div>
-
-                <div class="viz-panel glass" style="margin-bottom: 20px;">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                        <div>
-                            <h2 style="color:var(--text-bright); font-size:1.8rem; margin-bottom:4px; font-weight: 800;">Oladeji Lawrence</h2>
-                            <div style="color:var(--text-main); font-weight:700; font-size:1.1rem; margin-bottom:6px;">AI-Native Data & BI Engineer</div>
-                            <div style="color:var(--accent-blue); font-size:0.9rem; margin-bottom:12px; display:flex; gap:15px; align-items:center;">
-                                <span><i class="fa-solid fa-envelope"></i> oladeji.lawrence@gmail.com</span>
-                                <span><i class="fa-solid fa-phone"></i> +234 [Your Number]</span>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="mailto:oladeji.lawrence@gmail.com" style="text-decoration:none; padding:8px 16px; border-radius:6px; background:var(--accent-blue); color:#fff; font-weight:600; font-size:0.85rem;"><i class="fa-solid fa-envelope"></i> Email Me</a>
-                        </div>
-                    </div>
-                    <p style="color:var(--text-main); font-size:0.95rem; line-height:1.6; margin-bottom:16px;">
-                        <strong>AI-Native Data Analyst and BI Engineer</strong> with 3+ years of experience transforming complex datasets into strategic insights for executive decision-making. Proven track record in traditional BI (Power BI, SQL optimization, Data Governance) augmented by deep expertise in <strong>Generative AI and LLM orchestration</strong>. Highly adept at designing and deploying robust <strong>multi-agentic systems orchestrated with LangGraph</strong> and CrewAI to automate complex workflows, slash reporting latency, and skyrocket productivity. Passionate about architecting scalable, data-driven solutions at the intersection of traditional data engineering and cutting-edge Agentic AI.
-                    </p>
+            <section id="page-about" class="page" style="padding-top: 10px;">
+                <!-- Hero Profile Header -->
+                <div class="glass" style="position:relative; margin-bottom: 25px; padding: 40px; border-radius: 16px; overflow: hidden; display: flex; gap: 30px; align-items: center; border-top: 2px solid rgba(255,255,255,0.2);">
                     
-                    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
-                        <div style="background:rgba(0,0,0,0.15); padding:12px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
-                            <div style="font-weight:700; font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px;">Business Intelligence</div>
-                            <div style="font-size:0.85rem; color:var(--text-main);">Power BI (Advanced DAX, Modeling), Tableau, Google Looker Studio</div>
+                    <!-- Decorative Background Gradients -->
+                    <div style="position:absolute; top:-50%; left:-20%; width:50%; height:200%; background:radial-gradient(ellipse, rgba(0, 158, 219, 0.15) 0%, transparent 70%); z-index:0; transform: rotate(15deg);"></div>
+                    <div style="position:absolute; bottom:-50%; right:-10%; width:60%; height:150%; background:radial-gradient(ellipse, rgba(34, 197, 94, 0.1) 0%, transparent 70%); z-index:0;"></div>
+
+                    <!-- Profile Image / Icon -->
+                    <div style="z-index:1; flex-shrink: 0;">
+                        <div style="width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #009EDB 0%, #0d216b 100%); display:flex; align-items:center; justify-content:center; box-shadow: 0 10px 25px rgba(0,0,0,0.4), inset 0 0 0 2px rgba(255,255,255,0.3); position: relative;">
+                            <i class="fa-solid fa-user-astronaut" style="font-size: 3.5rem; color: #fff;"></i>
+                            <div style="position:absolute; bottom:5px; right:5px; width:20px; height:20px; background:#22c55e; border-radius:50%; border:3px solid #060b26; box-shadow: 0 0 10px rgba(34,197,94,0.6);" title="Available for Work"></div>
                         </div>
-                        <div style="background:rgba(0,0,0,0.15); padding:12px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
-                            <div style="font-weight:700; font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px;">Data Engineering</div>
-                            <div style="font-size:0.85rem; color:var(--text-main);">PostgreSQL, MySQL, BigQuery, SQL (Stored Procedures, CTEs), Airflow ETL</div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div style="z-index: 1; flex-grow: 1;">
+                        <div style="display:inline-block; padding:4px 12px; background:rgba(0, 158, 219, 0.2); border: 1px solid rgba(0, 158, 219, 0.4); border-radius: 20px; color: #38bdf8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px;">Open to Mid/Senior Roles Globally</div>
+                        <h1 style="color: var(--text-bright); font-size: 2.5rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px;">Oladeji Lawrence</h1>
+                        <h2 style="color: var(--accent-blue); font-size: 1.2rem; font-weight: 600; margin-bottom: 16px;">AI-Native Data & BI Engineer</h2>
+                        
+                        <div style="display:flex; gap: 20px; color: var(--text-dim); font-size: 0.95rem;">
+                            <a href="mailto:oladeji.lawrence@gmail.com" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; gap:8px; transition: color 0.3s;" onmouseover="this.style.color='#009EDB'" onmouseout="this.style.color='var(--text-main)'">
+                                <span style="display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.05);"><i class="fa-solid fa-envelope"></i></span> oladeji.lawrence@gmail.com
+                            </a>
+                            <a href="tel:+2349038819790" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; gap:8px; transition: color 0.3s;" onmouseover="this.style.color='#009EDB'" onmouseout="this.style.color='var(--text-main)'">
+                                <span style="display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.05);"><i class="fa-solid fa-phone"></i></span> +234 903 881 9790
+                            </a>
+                            <a href="https://github.com/Lawrencium-103" target="_blank" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; gap:8px; transition: color 0.3s;" onmouseover="this.style.color='#009EDB'" onmouseout="this.style.color='var(--text-main)'">
+                                <span style="display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.05);"><i class="fa-brands fa-github"></i></span> Lawrencium-103
+                            </a>
                         </div>
-                        <div style="background:rgba(0,0,0,0.15); padding:12px; border-radius:6px; border:1px solid rgba(255,255,255,0.05);">
-                            <div style="font-weight:700; font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px;">Agentic AI & Analytics</div>
-                            <div style="font-size:0.85rem; color:var(--text-main);">LangGraph, CrewAI, LangChain, Multi-Agent Orchestration, Python</div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div style="z-index: 1; display:flex; flex-direction:column; gap:12px;">
+                        <a href="mailto:oladeji.lawrence@gmail.com" style="padding: 12px 24px; background: linear-gradient(90deg, #009EDB, #0ea5e9); color: #fff; font-weight: 700; border-radius: 8px; text-decoration: none; text-align: center; box-shadow: 0 4px 15px rgba(0, 158, 219, 0.4); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0,158,219,0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,158,219,0.4)'"><i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> Hire Me</a>
+                        <a href="#projects-section" style="padding: 12px 24px; background: rgba(255,255,255,0.05); color: var(--text-bright); font-weight: 600; border-radius: 8px; text-decoration: none; text-align: center; border: 1px solid rgba(255,255,255,0.1); transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'"><i class="fa-solid fa-arrow-down" style="margin-right:6px;"></i> See Projects</a>
+                    </div>
+                </div>
+
+                <!-- Three Pillar Summary -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px;">
+                    <div class="glass" style="padding: 25px; border-radius: 12px; border-top: 2px solid rgba(0,158,219,0.5); display:flex; flex-direction:column; justify-content:space-between; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <div>
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: rgba(0,158,219,0.15); color: #009EDB; display:flex; align-items:center; justify-content:center; font-size: 1.5rem; margin-bottom: 16px;"><i class="fa-solid fa-chart-line"></i></div>
+                            <h3 style="color: var(--text-bright); font-size: 1.2rem; margin-bottom: 8px;">Business Intelligence</h3>
+                            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">Transforming raw datasets into executive C-Suite narratives. Expert in translating multi-million-dollar portfolios into interactive command centers using Power BI and Tableau.</p>
+                        </div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">Power BI / DAX</span>
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">Tableau</span>
+                        </div>
+                    </div>
+                    
+                    <div class="glass" style="padding: 25px; border-radius: 12px; border-top: 2px solid rgba(34,197,94,0.5); display:flex; flex-direction:column; justify-content:space-between; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <div>
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: rgba(34,197,94,0.15); color: #22c55e; display:flex; align-items:center; justify-content:center; font-size: 1.5rem; margin-bottom: 16px;"><i class="fa-solid fa-database"></i></div>
+                            <h3 style="color: var(--text-bright); font-size: 1.2rem; margin-bottom: 8px;">Data Engineering</h3>
+                            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">Architecting scalable pipelines and robust data models. Proven track record dropping query latency by 15% across global health databanks using optimized SQL architectures.</p>
+                        </div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">PostgreSQL / SQL</span>
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">BigQuery</span>
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">Airflow ETL</span>
+                        </div>
+                    </div>
+
+                    <div class="glass" style="padding: 25px; border-radius: 12px; border-top: 2px solid rgba(245,158,11,0.5); display:flex; flex-direction:column; justify-content:space-between; transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <div>
+                            <div style="width: 45px; height: 45px; border-radius: 10px; background: rgba(245,158,11,0.15); color: #f59e0b; display:flex; align-items:center; justify-content:center; font-size: 1.5rem; margin-bottom: 16px;"><i class="fa-solid fa-microchip"></i></div>
+                            <h3 style="color: var(--text-bright); font-size: 1.2rem; margin-bottom: 8px;">Agentic AI & LLMs</h3>
+                            <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">Designing autonomous workflows orchestrating complex data routing via LLMs. Pioneering the integration of multi-agentic reasoning frameworks into traditional data domains.</p>
+                        </div>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">LangGraph</span>
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">CrewAI</span>
+                            <span style="font-size:0.75rem; padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:var(--text-main);">Python</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="viz-row">
-                    <!-- Experience -->
-                    <div class="viz-panel glass" style="flex:1.5; display:flex; flex-direction:column; gap:20px;">
-                        <div class="panel-header">
-                            <span class="panel-title"><i class="fa-solid fa-briefcase"></i> Professional Experience</span>
-                        </div>
+                <div class="glass" style="padding: 30px; border-radius: 12px; margin-bottom: 25px;">
+                    <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-bright); margin-bottom: 16px; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-bullseye" style="color:#009EDB"></i> Executive Summary</div>
+                    <p style="color: var(--text-main); font-size: 1rem; line-height: 1.8;">
+                        I am an <strong>AI-Native Data Analyst and BI Engineer</strong> with 3+ years of experience transforming complex datasets into strategic insights for executive decision-making. My proven track record encompasses traditional BI (Power BI, SQL optimization, Data Governance) heavily augmented by deep expertise in <strong>Generative AI and LLM orchestration</strong>. I am highly adept at designing and deploying robust <strong>multi-agentic systems orchestrated with LangGraph</strong> and CrewAI to automate complex workflows, slash reporting latency entirely, and skyrocket operational productivity. I am profoundly passionate about architecting scalable, data-driven solutions at the exact intersection of robust data engineering and cutting-edge Agentic AI.
+                    </p>
+                </div>
+
+                <!-- Lower Layout: Experience vs Projects -->
+                <div class="viz-row" style="align-items: stretch;" id="projects-section">
+                    
+                    <!-- Left: Experience -->
+                    <div class="viz-panel glass" style="flex:1.2; display:flex; flex-direction:column; gap:25px; padding:30px;">
+                        <h2 style="color:var(--text-bright); font-size:1.3rem; margin-bottom:10px; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-briefcase" style="color:var(--accent-blue)"></i> Professional Blueprint</h2>
                         
-                        <div>
-                            <div style="font-weight:700; color:var(--text-bright); font-size:1.1rem;">Senior Data Analyst / BI Engineer</div>
-                            <div style="color:var(--accent-blue); font-size:0.8rem; margin-bottom:8px; font-weight:600;">May 2024 – Present</div>
-                            <ul style="margin-left:18px; color:var(--text-main); font-size:0.9rem; line-height:1.6;">
-                                <li style="margin-bottom:6px;">Designed and deployed executive-level Power BI dashboards and scorecards for C-Suite stakeholders (including Ministers of Health), translating complex indicators into powerful visual narratives to optimize multi-million-dollar portfolios.</li>
-                                <li style="margin-bottom:6px;">Engineered complex SQL data models (CTEs, Stored Procedures) on Google BigQuery and PostgreSQL, cutting query latency by 15% and facilitating real-time monitoring for 50+ key indicators.</li>
-                                <li style="margin-bottom:6px;">Established robust data quality frameworks, validating and centralizing 56,000+ data points across 1,450+ indicators from world-class sources (World Bank, WHO, IHME) ensuring 100% regulatory reporting accuracy.</li>
-                                <li>Constructed AI content generation frameworks using ChatGPT 4.0 and Perplexity, automating reporting tasks and saving significant overhead time (4 hours/week).</li>
+                        <!-- Timeline Item 1 -->
+                        <div style="position:relative; padding-left: 20px; border-left: 2px solid rgba(0,158,219,0.3);">
+                            <div style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:#009EDB; box-shadow:0 0 10px rgba(0,158,219,0.8);"></div>
+                            <div style="font-weight:800; color:var(--text-bright); font-size:1.15rem; letter-spacing: -0.3px;">Senior Data Analyst / BI Engineer</div>
+                            <div style="color:var(--accent-blue); font-size:0.85rem; margin-bottom:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">May 2024 – Present</div>
+                            <ul style="margin-left:5px; color:var(--text-main); font-size:0.95rem; line-height:1.7; list-style-type: none; padding:0;">
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:#22c55e;"></i> Designed and deployed executive-level Power BI dashboards for C-Suite stakeholders, optimizing multi-million-dollar portfolios.</li>
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:#22c55e;"></i> Engineered complex SQL data models on BigQuery & PostgreSQL, cutting query latency by 15% across 50+ key indicators.</li>
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:#22c55e;"></i> Centralized 56,000+ data points across 1,450+ indicators from world-class sources (World Bank, WHO) to ensure 100% regulatory reporting accuracy.</li>
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:#22c55e;"></i> Constructed AI content frameworks utilizing multi-agent reasoning to automate reporting, saving significant overhead blocks.</li>
                             </ul>
                         </div>
 
-                        <div style="height:1px; background:rgba(255,255,255,0.1);"></div>
-
-                        <div>
-                            <div style="font-weight:700; color:var(--text-bright); font-size:1.1rem;">Junior BI / Data Operations Analyst</div>
-                            <div style="color:var(--accent-blue); font-size:0.8rem; margin-bottom:8px; font-weight:600;">2019 – April 2024</div>
-                            <ul style="margin-left:18px; color:var(--text-main); font-size:0.9rem; line-height:1.6;">
-                                <li style="margin-bottom:6px;">Conducted robust stakeholder interviews to synthesize business requirements into actionable data models for E-mobility and energy projects.</li>
-                                <li style="margin-bottom:6px;">Executed statistical modeling (regression, machine learning) on massive temporal datasets to predict demand, cutting project lifecycles by 20%.</li>
-                                <li>Identified $550 cost-savings in regional deployment operations through rapid exploratory spatial analysis and dynamic dashboarding tools.</li>
+                        <!-- Timeline Item 2 -->
+                        <div style="position:relative; padding-left: 20px; border-left: 2px solid rgba(255,255,255,0.1);">
+                            <div style="position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.3);"></div>
+                            <div style="font-weight:800; color:var(--text-bright); font-size:1.15rem; letter-spacing: -0.3px;">Junior BI / Data Operations Analyst</div>
+                            <div style="color:var(--text-dim); font-size:0.85rem; margin-bottom:12px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">2019 – April 2024</div>
+                            <ul style="margin-left:5px; color:var(--text-main); font-size:0.95rem; line-height:1.7; list-style-type: none; padding:0;">
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:var(--text-dim);"></i> Synthesized business requirements into actionable data models for E-mobility.</li>
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:var(--text-dim);"></i> Executed statistical modeling predicting demand, cutting lifecycles by 20%.</li>
+                                <li style="position:relative; margin-bottom:10px; padding-left:18px;"><i class="fa-solid fa-check" style="position:absolute; left:0; top:4px; font-size:0.75rem; color:var(--text-dim);"></i> Identified high ROI cost-savings via exploratory spatial geospatial analysis.</li>
                             </ul>
                         </div>
                         
-                        <div class="panel-header" style="margin-top: 10px;">
-                            <span class="panel-title"><i class="fa-solid fa-graduation-cap"></i> Education</span>
-                        </div>
-                        <div>
-                            <div style="font-weight:700; color:var(--text-bright); font-size:0.95rem;">MSc in Mechanical Engineering</div>
-                            <div style="color:var(--text-dim); font-size:0.85rem; margin-bottom: 8px;">University of Ibadan, 2023 - 2024</div>
-                            <div style="font-weight:700; color:var(--text-bright); font-size:0.95rem;">BSc in Mechanical Engineering (2:1 Honors)</div>
-                            <div style="color:var(--text-dim); font-size:0.85rem;">Federal Univ. of Agriculture, Abeokuta (CGPA: 3.99/5.0)</div>
+                        <div style="height:1px; background:rgba(255,255,255,0.1); margin: 10px 0;"></div>
+
+                        <!-- Education -->
+                        <h2 style="color:var(--text-bright); font-size:1.2rem; margin-bottom:0px; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-graduation-cap" style="color:var(--accent-blue)"></i> Academic Background</h2>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div style="background:rgba(0,0,0,0.15); padding:15px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                                <div style="font-weight:800; color:#fff; font-size:1rem;">MSc in Mechanical Engineering</div>
+                                <div style="color:var(--accent-blue); font-size:0.85rem; margin-top:4px;">University of Ibadan &middot; 2023 - 2024</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.15); padding:15px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                                <div style="font-weight:800; color:#fff; font-size:1rem;">BSc in Mechanical Engineering (2:1 Honors)</div>
+                                <div style="color:var(--text-dim); font-size:0.85rem; margin-top:4px;">Federal Univ. of Agriculture, Abeokuta &middot; CGPA: 3.99/5.0</div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Projects -->
-                    <div class="viz-panel glass" style="flex:1; display:flex; flex-direction:column; max-height:850px;">
-                        <div class="panel-header">
-                            <span class="panel-title"><i class="fa-solid fa-folder-open"></i> Featured Projects</span>
-                        </div>
+                    <!-- Right: Projects Grid -->
+                    <div class="viz-panel glass" style="flex:1.8; display:flex; flex-direction:column; padding:30px; position:relative;">
+                        <h2 style="color:var(--text-bright); font-size:1.3rem; margin-bottom:20px; display:flex; align-items:center; gap:10px;"><i class="fa-solid fa-folder-tree" style="color:#22c55e"></i> Agentic AI & Analytics Portfolio</h2>
                         
-                        <div style="overflow-y:auto; padding-right:8px; display:flex; flex-direction:column; gap:12px;">
+                        <!-- Custom scrollable grid -->
+                        <div style="overflow-y:auto; overflow-x:hidden; padding-right:10px; display:grid; grid-template-columns: 1fr 1fr; gap:15px; max-height:800px; align-content:start;" class="custom-scroll">
                             
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="#" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">WHO ESPEN Data Dashboard ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">A premium analytics web-app deployed for international public health monitoring. Engineered real-time supply chain latency metrics (SQL logic & JS calculation) and designed a sophisticated glassmorphism UI overlaying geospatial Leaflet mappings.</div>
-                            </div>
+                            <!-- Project Card 1: WHO ESPEN -->
+                            <a href="#" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden; grid-column: span 2;" onmouseover="this.style.background='rgba(0, 158, 219, 0.08)'; this.style.borderColor='rgba(0, 158, 219, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:#009EDB;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.1rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>WHO ESPEN Data Dashboard</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">A premium analytics platform deployed for international public health monitoring. Engineered real-time supply chain latency algorithms bridging SQL logic with JavaScript, enveloped in a stunning glassmorphism geospatial tracking UX.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Node.js</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Leaflet.js</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Vercel Edge</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://oyoairtrack.netlify.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">Oyoairtrack ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">Democratizing environmental intelligence by translating invisible heat and air quality metrics into actionable insights for a healthier Africa.</div>
-                            </div>
+                            <!-- Project Card 2: LinkyGen -->
+                            <a href="https://linkygen.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(245, 158, 11, 0.08)'; this.style.borderColor='rgba(245, 158, 11, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#f59e0b;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>LinkyGen Intelligence</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Advanced AI application utilizing a <strong>multi-agentic LangGraph architecture</strong> to streamline high-quality dynamic content pipelines.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(245,158,11,0.2); border-radius:12px; color:#fbbf24;">LangGraph</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Agentic AI</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://finstratz.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">Finstrat Financial Analytics ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">A Python-based financial suite utilizing Streamlit and deep learning (TensorFlow) to forecast stock trends and automate market visualizations.</div>
-                            </div>
+                            <!-- Project Card 3: SESA -->
+                            <a href="https://sesa-energy.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(34, 197, 94, 0.08)'; this.style.borderColor='rgba(34, 197, 94, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#22c55e;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>SESA Optimization</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Stochastic optimization engine built on <strong>Agentic AI orchestration</strong> to minimize smart building electricity via BESS arbitrage.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(34,197,94,0.2); border-radius:12px; color:#4ade80;">Multi-Agent</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Python</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://sesa-energy.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">SESA (Stochastic Energy Agent) ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">A stochastic optimization engine built on <strong>Agentic AI orchestration</strong> to minimize smart building electricity costs through solar PV, BESS energy arbitrage, and intelligent EV charging workflows.</div>
-                            </div>
+                            <!-- Project Card 4: Stratos -->
+                            <a href="https://stratos-content.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(139, 92, 246, 0.08)'; this.style.borderColor='rgba(139, 92, 246, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#8b5cf6;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>Stratos Content Empire</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Strategic AI marketing tool powered by <strong>LangGraph multi-agent orchestration</strong> mapping pinpoint audience intent.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(139,92,246,0.2); border-radius:12px; color:#a78bfa;">LangGraph</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Streamlit</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://linkygen.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">LinkyGen Intelligent Engine ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">Advanced AI application utilizing a <strong>multi-agentic approach orchestrated with LangGraph</strong> to streamline dynamic, high-quality content generation pipelines for rapid deployment.</div>
-                            </div>
+                            <!-- Project Card 5: XGen Studio -->
+                            <a href="https://xgenstudio.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(236, 72, 153, 0.08)'; this.style.borderColor='rgba(236, 72, 153, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#ec4899;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>XGen Studio</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Viral writing assistant leveraging a <strong>multi-agent LLM workflow</strong> to scale brand growth via highly-humanized narratives.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(236,72,153,0.2); border-radius:12px; color:#f472b6;">CrewAI</span>
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">LangChain</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://stratos-content.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">Stratos Content Empire ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">A strategic AI marketing tool powered by <strong>LangGraph multi-agent orchestration</strong>, ending 'guesswork content' by mapping audience intent to precision-targeted authority posts.</div>
-                            </div>
+                            <!-- Project Card 6: OyoAirTrack -->
+                            <a href="https://oyoairtrack.netlify.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(14, 165, 233, 0.08)'; this.style.borderColor='rgba(14, 165, 233, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#0ea5e9;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>OyoAirTrack</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Democratizing environmental intelligence by mapping invisible heat and air metrics into public health dashboards.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(255,255,255,0.1); border-radius:12px; color:#fff;">Geospatial Data</span>
+                                </div>
+                            </a>
 
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://xgenstudio.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">XGen Studio ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">A viral writing assistant leveraging a <strong>multi-agent LLM workflow (LangGraph)</strong> to capture attention and scale brand growth via highly-humanized, high-impact narratives.</div>
-                            </div>
-                            
-                            <div style="background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.05); border-radius:6px; padding:12px;">
-                                <a href="https://stanbic-ibtc-portfolio-simulation.streamlit.app/" target="_blank" style="font-weight:700; color:var(--accent-blue); font-size:0.95rem; text-decoration:none;">Stanbic IBTC Simulator ↗</a>
-                                <div style="color:var(--text-main); font-size:0.85rem; margin-top:6px; line-height: 1.4;">Financial modeling application generating robust performance forecasts across Money Market and Nigerian Equity portfolios.</div>
-                            </div>
+                            <!-- Project Card 7: Finstrat -->
+                            <a href="https://finstratz.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(52, 211, 153, 0.08)'; this.style.borderColor='rgba(52, 211, 153, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#34d399;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>Finstratz Analytics</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Python-based financial suite utilizing deep learning (TensorFlow) to forecast stock trends.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(52,211,153,0.2); border-radius:12px; color:#6ee7b7;">TensorFlow</span>
+                                </div>
+                            </a>
+
+                            <!-- Project Card 8: Stanbic -->
+                            <a href="https://stanbic-ibtc-portfolio-simulation.streamlit.app/" target="_blank" class="project-card" style="display:block; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:20px; text-decoration:none; transition: all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.background='rgba(59, 130, 246, 0.08)'; this.style.borderColor='rgba(59, 130, 246, 0.4)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(0,0,0,0.2)'; this.style.borderColor='rgba(255,255,255,0.06)'; this.style.transform='translateY(0)'">
+                                <div style="position:absolute; top:0; left:0; width:100%; height:3px; background:#3b82f6;"></div>
+                                <div style="font-weight:800; color:#fff; font-size:1.05rem; margin-bottom:8px; display:flex; justify-content:space-between;">
+                                    <span>Stanbic IBTC Simulator</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-dim); font-size:0.8rem;"></i>
+                                </div>
+                                <div style="color:var(--text-main); font-size:0.9rem; line-height: 1.5; margin-bottom:12px;">Financial modeling application generating robust performance forecasts across Money Market portfolios.</div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                                    <span style="font-size:0.7rem; padding:3px 8px; background:rgba(59,130,246,0.2); border-radius:12px; color:#93c5fd;">Financial Modeling</span>
+                                </div>
+                            </a>
 
                         </div>
                     </div>
