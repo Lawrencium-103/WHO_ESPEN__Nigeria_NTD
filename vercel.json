@@ -5,13 +5,13 @@
             "src": "server.js",
             "use": "@vercel/node",
             "config": {
-                "includeFiles": "data/**"
+                "includeFiles": ["data/**", "public/**"]
             }
         }
     ],
     "rewrites": [
         {
-            "source": "/api/(.*)",
+            "source": "/(.*)",
             "destination": "/server.js"
         }
     ]

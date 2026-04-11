@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 const PORT = 3001;
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 let DB = { geoJson: null, meta: {}, stats: {}, logistics: [], timeseries: {} };
 
